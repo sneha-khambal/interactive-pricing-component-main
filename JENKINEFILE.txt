@@ -1,0 +1,50 @@
+pipeline{
+    agent any
+    environment{
+        NEW_VERSION = '1.2.1'
+        SERVER_CREDENTIAL = credential(')
+    }
+    tools{
+        maven 'Maven'
+    }
+
+ stages{
+        stage("build"){
+           when{
+               expression{
+                   BRANCE_NAME = 'dev' || BRANCE_NAME = 'master'
+               }
+           }
+                steps{
+                    echo 'building stage'
+                    sh "mvn install"
+                } } }
+
+        stage(" test"){
+            steps{
+                echo "testing version is ${NEW_VERSION}"
+            }
+             
+            } }
+
+        stage("deploy"){ 
+            
+                steps{
+                    echo 'deploying stage'
+                    withCredential([
+                  usernaemPassword(credentials : 'server-credential', usernaemVariable:USER, passwordVariable:PWD)
+                   ]){
+                       echo " ${USER} and ${PWD}"
+
+                    }
+
+                }}}
+
+    }
+
+    post{
+        always{
+            echo 'deployment process is done.'
+        }
+    }
+}

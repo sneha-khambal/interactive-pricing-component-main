@@ -1,0 +1,43 @@
+pipeline{
+    agent any
+    environment{
+        NEW_VERSION = '1.2.1-MMM'
+    }
+
+ stages{
+        stage("build"){
+           when{
+               expression{
+                   BRANCE_NAME = 'dev' || BRANCE_NAME = 'master'
+               }
+           }
+                steps{
+                    echo 'building stage'
+                }
+            }
+        }
+
+        stage(" test"){
+            steps{
+                
+            }
+             
+            }
+        }
+
+        stage("deploy"){
+            
+                steps{
+                    echo 'deploying stage'
+                }
+            }
+        }
+
+    }
+
+    post{
+        always{
+            echo 'deployment process is done.'
+        }
+    }
+}
